@@ -1,0 +1,173 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@section CustomCss{
+    <link rel ="stylesheet" type="text/css" href="/css//manageDevice.css"/>
+}
+@model List<EquipmentViewModel>
+ <section class="section-content">
+      <h1 class="heading-1 mb-5 d-flex align-items-center">
+        <svg class="heading__icon me-4">
+          <use xlink:href="/image/spirite.svg#icon-folder-open"></use>
+        </svg>
+        Quản lý thiết bị
+      </h1>
+      <div class="row">
+        <div
+          class="col-lg-4 col-12 d-flex d-lg-block justify-content-between mb-4 mb-lg-0"
+        >
+          <figure class="map">
+            <figcaption class="map__unit">(&#13217;)</figcaption>
+            <img src="/image/map.png" class="img-fluid" alt="map image" />
+          </figure>
+          <div class="adding-device">
+            <h2 class="heading-2 text-center mb-4">Thêm thiết bị</h2>
+
+            <form class="form" asp-action="InsertEquipment" asp-controller="Home">
+                <div class="mb-3 form-group">
+                    <label for="types" class="form__label">Loại:</label>
+                    <select name="equipment.loaiThietBi" id="types" class="form__input" onchange="myFunction()">
+                        <option value="output">Output</option>
+                        <option value="input">Input</option>
+                    </select>
+                </div>
+                <div class="mb-3 popup1">
+                    <label for="devices" class="form__label">Thiết bị:</label>
+                    <select name="equipment.nameIn" id="devices" class="form__input">
+                        <option value="DHT11-Độ ẩm">DHT11-Độ ẩm</option>
+                        <option value="DHT11-Nhiệt độ">DHT11-Nhiệt độ</option>
+                        <option value="Cảm biến ánh sáng">Cảm biến ánh sáng</option>
+                        <option value="Cảm biến độ ẩm đất">Cảm biến độ ẩm đất</option>
+                        <option value="Cảm biến âm thanh">Cảm biến âm thanh</option>
+                    </select>
+                </div>
+                <div class="mb-3 popup2">
+                    <label for="devices" class="form__label">Thiết bị:</label>
+                    <select name="equipment.nameOut" id="devices" class="form__input">
+                        <option value="LED đơn 2 màu">LED đơn 2 màu</option>
+                        <option value="Loa Buzzer">Loa Buzzer</option>
+                        <option value="Máy Bơm">Máy Bơm</option>
+                    </select>
+                </div>
+                <div class="popup" id="output">
+                    <label for="outputs" class="form__label">Output kết nối:</label>
+                    <select name="equipment.idOutput" id="outputs" class="form__input">
+                        @foreach (var o in Model)
+                        {
+                            @if (o.loaiThietBi == "output")
+                            {
+                                <option value=@o.id>@o.name (@o.viTri)</option>
+                            }
+                        }
+                    </select>
+                </div>
+
+                <div class="mb-3 form-group">
+                    <span class="form__label">Vị trí: </span>
+                    <div class="coordinate-group">
+                        <label for="coordinate-x">X</label>
+                        <input type="text"
+                               name="equipment.X" />
+                    </div>
+                    <div class="coordinate-group">
+                        <label for="coordinate-y">Y</label>
+                        <input type="text"
+                               name="equipment.Y" />
+                    </div>
+                </div>
+                <div class="mb-3 form-group">
+                    <label class="form__label">Thông tin:</label>
+                    <input class="form__input" type="text" name="equipment.thongTin" />
+                </div>
+                <div class="mb-3 form-group">
+                    <label class="form__label">ImgUrl:</label>
+                    <input class="form__input" type="text" name="equipment.image" />
+                </div>
+                <button class="button button-primary mx-auto my-0" type="submit">Thêm</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- -------------DEVICE LISTING--------------- -->
+        <div class="col-lg-8 col-12">
+          <div class="devices">
+            <div class="device-output mb-5">
+              <h2 class="heading-2 device-type mb-5">Output</h2>
+              <div class="device-container">
+                  @foreach (var e in Model)
+                  {
+                      @if (e.loaiThietBi == "output")
+                      {
+                          <figure class="device__figure">
+                              <form asp-controller="Home" asp-action="DeleteEquipment">
+                                  <input name="id" type="hidden" value="@e.id" />
+                                  <button class="delete">X</button>
+                              </form>
+                              <a href="@Url.Action("EquipmentDetail",new {id=e.id})">
+                                  <img src="@e.image"
+                                       alt="device image"
+                                       class="device__img mb-3" />
+                              </a>
+
+                              <div class="device__name">@e.name</div>
+                              <div class="device__coordinates">
+                                  <span class="device__coordinate-x">@e.viTri</span>
+                              </div>
+                          </figure>
+                      }
+
+                  }
+
+              </div>
+            </div>
+            <div class="device-output">
+              <h2 class="heading-2 device-type mb-5">Input</h2>
+              <div class="device-container">
+                  @foreach (var e in Model)
+                  {
+                      @if (e.loaiThietBi == "input")
+                      {
+                          <figure class="device__figure">
+                              <form asp-controller="Home" asp-action="DeleteEquipment">
+                                  <input name="id" type="hidden" value="@e.id" />
+                                  <button class="delete">X</button>
+                              </form>
+                              <a href="@Url.Action("EquipmentDetail",new {id=e.id})">
+                                  <img src="@e.image"
+                                       alt="device image"
+                                       class="device__img mb-3" />
+                              </a>
+
+                                  <div class="device__name">@e.name</div>
+                                  <div class="device__coordinates">
+                                      @e.viTri
+                                  </div>
+                            </figure>
+                      }
+
+                  }
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+@section Scripts{
+<script>
+    let modal = document.querySelector(".popup");
+    let modal1 = document.querySelector(".popup1");
+    let modal2 = document.querySelector(".popup2");
+    function myFunction() {
+        var x = document.getElementById("types").value;
+        if (x == "input") {
+            modal.style.display = "flex";
+            modal1.style.display = "flex";
+            modal2.style.display = "none";
+        } else if (x == "output"){
+            modal2.style.display = "flex";
+            modal1.style.display = "none";
+            modal.style.display = "none";
+        }
+    }
+</script>
+}

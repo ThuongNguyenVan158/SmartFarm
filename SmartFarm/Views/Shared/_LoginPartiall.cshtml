@@ -1,0 +1,36 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using SmartFarm.Data.Entities;
+@using SmartFarm.Data;
+@inject SignInManager<Customer> SignInManager
+@inject UserManager<Customer> UserManager
+@inject AppDbContext context
+@if (SignInManager.IsSignedIn(User))
+{
+    <div class="dropdown align-self-stretch d-none d-md-inline-block">
+        <div class="dropdown-toggle nav-user"
+             id="dropdownMenuButton"
+             data-bs-toggle="dropdown"
+             aria-expanded="false">
+             <span class="nav-user__avatar">
+                    <img src="@UserManager.GetUserAsync(User).Result.Image" alt="User avatar" />
+            </span>
+            <span class="nav-user__name" style="font-size: 1.3rem;">@UserManager.GetUserAsync(User).Result.UserName</span>
+        </div>
+
+        <div class="dropdown-menu nav-user__dropdown"
+             aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item nav-user__dropdown-item" href="@Url.Action("InforUser","Home",new { UserName=UserManager.GetUserAsync(User).Result.UserName})">Thông tin cá nhân</a>
+            <a class="dropdown-item nav-user__dropdown-item" href="@Url.Action("ManageDevice","Home",new { idFarm=UserManager.GetUserAsync(User).Result.SoHuuTrangTrai})">Quản lý thiết bị</a>
+            <a class="dropdown-item nav-user__dropdown-item" href="@Url.Action("Logout", "Home")">Đăng xuất</a>
+        </div>
+    </div>
+}
+else
+{
+    <div class="d-none d-md-flex nav-empty align-self-stretch px-4 align-items-center">
+        <svg class="nav-empty__avatar">
+            <use xlink:href="/image/spirite.svg#icon-user-solid-circle"></use>
+        </svg>
+        <a href="@Url.Action("Login", "Home")" class="nav-empty__link">Đăng nhập</a>
+    </div>
+}

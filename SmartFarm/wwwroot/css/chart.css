@@ -1,0 +1,54 @@
+#myChart,
+    #myChart1,
+    #myChart2 {
+    width: 100% !important;
+    height: auto !important;
+    color: rgb(62, 128, 172);
+    }
+    .section-content {
+    padding: 2rem;
+    }
+
+    @media only screen and (max-width: 59.375em) {
+        .section-content {
+            padding: 2rem;
+        }
+    }
+
+    @media only screen and (max-width: 42.1875em) {
+        .section-content {
+            padding: 2rem;
+        }
+    }
+    #option_chart{
+        font-size: 1.5rem;
+        width: 26rem;
+        border-style: outset;
+        border-radius: 7px;
+        padding: 0.7rem;
+        background: rgb(123, 195, 108);
+    }
+    .time{
+        
+        font-size: 1.5rem;
+        width: 14rem;
+        border-style: outset;
+        border-radius: 7px;
+        padding: 0.7rem;
+        background: rgb(123, 195, 108);
+    }
+label{
+    font-size:2rem;
+}
+.from{
+    grid-area: 1/5;
+}
+.to {
+    grid-area: 1/6;
+}
+.chart_{
+    display: grid;
+}
+.button1{
+    grid-area: 1/7 !important;
+}

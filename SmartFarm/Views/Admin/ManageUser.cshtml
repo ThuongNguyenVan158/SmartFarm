@@ -1,0 +1,198 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@section CustomCss{
+    <link rel="stylesheet" type="text/css" href="~/css/admin.css" />
+}
+@model List<AdminAccountViewModel>
+<!-- **********************SECTION********************** -->
+<!----------------------------- END HEADER---------------------------->
+<section class="section-content">
+    <h1 class="heading-1 mb-5 d-flex align-items-center">
+        <svg class="heading__icon me-4">
+            <use xlink:href="/image/spirite.svg#icon-users"></use>
+        </svg>
+        Quản lý người dùng
+    </h1>
+    <div class="row">
+        <div class="col-lg-4 col-12 d-flex d-lg-block justify-content-between mb-4 mb-lg-0">
+            <div class="adding-device">
+                <h2 class="heading-2 text-center mb-4">Tạo tài khoản</h2>
+
+                <form class="form" asp-action="InsertAccount" asp-controller="Admin">
+                    <div class="mb-3 form-group">
+                        <label class="form__label">Tên tài khoản:</label>
+                        <!-- <select name="types" id="types" class="form__input">
+                          <option value="Input">Input</option>
+                          <option value="Output">Output</option>
+                        </select> -->
+                        <input type="text"
+                               placeholder="Tên tài khoản"
+                               class="form__input"
+                               name="account.UserName" />
+                    </div>
+                    <div class="mb-3 form-group">
+                        <label class="form__label">Họ:</label>
+                        <!-- <select name="types" id="types" class="form__input">
+                          <option value="Input">Input</option>
+                          <option value="Output">Output</option>
+                        </select> -->
+                        <input type="text"
+                               placeholder="Họ"
+                               class="form__input"
+                               name="account.Ho" />
+                    </div>
+                    <div class="mb-3 form-group">
+                        <label class="form__label">Tên:</label>
+                        <!-- <select name="types" id="types" class="form__input">
+                          <option value="Input">Input</option>
+                          <option value="Output">Output</option>
+                        </select> -->
+                        <input type="text"
+                               placeholder="Tên"
+                               class="form__input"
+                               name="account.Ten" />
+                    </div>
+                    <div class="mb-3 form-group">
+                        <label for="email" class="form__label">Email:</label>
+                        <!-- <select name="types" id="types" class="form__input">
+                          <option value="Input">Input</option>
+                          <option value="Output">Output</option>
+                        </select> -->
+                        <input type="email"
+                               placeholder="example@gmail.com"
+                               class="form__input"
+                               name="account.Email" />
+                    </div>
+                    <div class="mb-3 form-group">
+                        <label class="form__label">Sở hữu trang trại:</label>
+                        <!-- <select name="types" id="types" class="form__input">
+                          <option value="Input">Input</option>
+                          <option value="Output">Output</option>
+                        </select> -->
+                        <input type="text"
+                               placeholder="ID trang trại sở hữu"
+                               class="form__input"
+                               name="account.FarmId" />
+                    </div>
+                    <div class="mb-3 form-group">
+                        <label class="form__label">Địa chỉ:</label>
+                        <!-- <select name="types" id="types" class="form__input">
+                          <option value="Input">Input</option>
+                          <option value="Output">Output</option>
+                        </select> -->
+                        <input type="text"
+                               placeholder="Địa chỉ"
+                               class="form__input"
+                               name="account.Address" />
+                    </div>
+                    <div class="mb-3 form-group">
+                        <label class="form__label">Số điện thoại:</label>
+                        <!-- <select name="types" id="types" class="form__input">
+                          <option value="Input">Input</option>
+                          <option value="Output">Output</option>
+                        </select> -->
+                        <input type="text"
+                               placeholder="Số điện thoại"
+                               class="form__input"
+                               name="account.PhoneNumber" />
+                    </div>
+                    <div class="mb-3 form-group">
+                        <label for="role" class="form__label">Role:</label>
+                        <!-- <select name="types" id="types" class="form__input">
+                          <option value="Input">Input</option>
+                          <option value="Output">Output</option>
+                        </select> -->
+                        <select name="account.Role" class="form__input">
+                            <option value="admin">Admin</option>
+                            <option value="user">Thành viên</option>
+                        </select>
+                    </div>
+                    <div class="mb-3 form-group">
+                        <label for="password" class="form__label">Mật khẩu:</label>
+                        <!-- <select name="types" id="types" class="form__input">
+                          <option value="Input">Input</option>
+                          <option value="Output">Output</option>
+                        </select> -->
+                        <input type="password"
+                               placeholder="Password"
+                               class="form__input"
+                               name="account.Password"/>
+                    </div>
+                    <div class="mb-3 form-group">
+                        <label for="passwordConfirmed" class="form__label">Nhập lại mật khẩu:</label>
+                        <!-- <select name="types" id="types" class="form__input">
+                          <option value="Input">Input</option>
+                          <option value="Output">Output</option>
+                        </select> -->
+                        <input type="password"
+                               placeholder="Confirm password"
+                               class="form__input"
+                               name="account.RePassword" />
+                    </div>
+
+                    <button type="submit" class="button button-primary mx-auto my-0">
+                        Đăng ký
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="col-lg-8 col-12">
+            <div class="devices">
+                <h2 class="heading-2 mb-4 text-center">Danh sách tài khoản</h2>
+
+                <div class="col-12">
+                    <!-- ORDERS TABLE -->
+                    <div class="box">
+                        <div class="box-body">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Tên tài khoản</th>
+                                        <th>Họ và tên</th>
+                                        <th>Email</th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var account in Model)
+                                    {
+                                        <tr>
+                                            <td>@account.UserName</td>
+                                            <td>@account.FullName</td>
+                                            <td>@account.Email</td>
+                                            <td>
+                                                <svg class="table__icon">
+                                                    <a href="@Url.Action("EditUser",new { UserName=account.UserName})">
+                                                        <use xlink:href="/image/spirite.svg#icon-clipboard-edit"></use>
+                                                    </a>
+                                                </svg>
+                                            </td>
+                                            <td>
+                                                <form asp-controller="Admin" asp-action="DeleteAccount">
+                                                    <input name="UserName" type="hidden" value="@account.UserName" />
+                                                    <button type="submit">
+                                                        <svg class="table__icon">
+                                                            <use xlink:href="/image/spirite.svg#icon-bin2"></use>
+                                                        </svg>
+                                                    </button>
+                                                </form>
+                                            </td>
+                                            <td></td>
+                                        </tr>
+                                    }
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- END ORDERS TABLE -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@{
+}

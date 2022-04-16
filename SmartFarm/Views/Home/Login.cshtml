@@ -1,0 +1,46 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "_Login";
+}
+@section CustomCss{
+    <link rel="stylesheet" type="text/css" href="/css//login.css" />
+}
+<div class="u-body-gradient-lr">
+    <div class="login">
+        <figure class="login__img">
+            <img src="/image/Cow.png" alt="login_img" />
+        </figure>
+        <div class="login__form-container">
+            <h2 class="heading-3 u-mg-bt-big">Member Login</h2>
+            <form class="form login__form" asp-controller="Home" asp-action="Login" method="post">
+                <div class="form__group">
+                    <input type="text" class="form__email" placeholder="UserName" name="loginViewModel.UserName" />
+                    <svg>
+                        <use xlink:href="/image/spirite.svg#icon-envelope"></use>
+                    </svg>
+                </div>
+                <div class="form__group">
+                    <input type="password"
+                           class="form__password"
+                           placeholder="Password"
+                           name="loginViewModel.Password" />
+                    <svg>
+                        <use xlink:href="/image/spirite.svg#icon-lock-closed"></use>
+                    </svg>
+                </div>
+                <div class="form__group">
+                    <input type="submit" class="btn form__btn" value="Login" />
+                </div>
+            </form>
+            <p class="login__forgot">
+                Forgot <a href="#" class="login__forgot-username">Username</a> /
+                <a href="#" class="login__forgot-password">Password</a>?
+            </p>
+            <a href="#" class="login__create-account">Create your Account &#8594;</a>
+        </div>
+    </div>
+</div>
+@{
+}

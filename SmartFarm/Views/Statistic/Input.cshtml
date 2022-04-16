@@ -1,0 +1,519 @@
+﻿@using SmartFarm.Models;
+@model InputModel;
+@{
+    ViewData["Title"] = "Input";
+}
+@section CustomCss{
+<link rel="stylesheet" type="text/css" href="/css/chart.css" />
+<link rel="stylesheet" type="text/css" href="/css/statistic.css" />
+}
+
+<div class="section" style="background-color:#EBFCF2;padding-top: 2rem;">
+    <div class="container-xxl py-5">
+        <div class="container py-5 px-lg-5">
+            <div class="row g-4 portfolio-container mb-4">
+                <h1>Thiết bị input</h1>
+                <div class="col-lg-3 col-md-6 portfolio-item first wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="rounded overflow-hidden">
+                        <div class="position-relative overflow-hidden">
+                            <img class="img-fluid w-100" src="@Model.image" alt="">
+                            <div class="portfolio-overlay">
+                                <a class="btn btn-square btn-outline-light mx-1" href="img/portfolio-1.jpg"
+                                    data-lightbox="portfolio"><i class="fa fa-eye"></i></a>
+                                <a class="btn btn-square btn-outline-light mx-1" href=""><i class="fa fa-link"></i></a>
+                            </div>
+                        </div>
+                        <div class="bg-light p-4 text-center fs-3">
+                            <p class="text-primary fw-medium mb-2">@Model.name</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-9 col-md-6 portfolio-item second wow fadeInUp" data-wow-delay="0.3s">
+                    <div class="rounded overflow-hidden">
+                        <div class="position-relative overflow-hidden">
+                            <img class="img-fluid w-100" src="/images/ouputdesc.png" alt="">
+                            <div class="portfolio-overlay">
+                                <a class="btn btn-square btn-outline-light mx-1" href="@Model.image"
+                                    data-lightbox="portfolio"><i class="fa fa-eye"></i></a>
+                                <a class="btn btn-square btn-outline-light mx-1" href=""><i class="fa fa-link"></i></a>
+                            </div>
+                        </div>
+                        <div class="bg-light p-4 fs-3">
+                            <p class="text-primary fw-medium mb-2">Chọn loại hình xem thống kê</p>
+                            <form class="row">
+                                <div class="col-9">
+                                    <select class="form-select form-select-lg mb-3" style="background-color: #FFDBDB;">
+                                        <option>chọn loại hình xem thống kê --</option>
+                                        <option value="1">Xem thống kê dạng bảng</option>
+                                        <option value="2">Xem thống kê dạng biểu đồ</option>
+                                    </select>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="button" value="Tra cứu" class="form-control fs-3"
+                                        style="background-color: #FF8080;" />
+                                    <input id="feed" type="hidden" value="@Model.feedName" name="@Model.name"
+                                        kind="@Model.loaiThietBi" />
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <h1 style="font-weight:700;font-size:35px">Biểu đồ</h1>
+            </div>
+            <div class="chart_">
+                @*<form asp-action="Input" asp-controller="Statistic">
+                    <input type="hidden" name="id" value="@Model.id"/>*@
+                    <select id="option_chart" name="type">
+                        <option value="1">Biểu đồ biểu diễn sự biến thiên thông số của thiết bị</option>
+                        <option value="2">Biểu đồ so sánh số lần vượt ngưỡng</option>
+                    </select>
+                   @* <input type="submit"/>*@
+                @*</form>*@
+                <label class="from">Từ:
+                    <input type="date" min="2022-03-01" max="" class="time _from">
+                </label>
+                <label class="to">Đến:
+                    <input type="date" min="2022-03-01" max="" class="time _to">
+                </label>
+                <input type="hidden" max="@Model.nguongMax" id="max" />
+                <input type="hidden" min="@Model.nguongMin" id="min" />
+                <input type="hidden" value="@Model.id" id="id" />
+                <input type="hidden" value="@Model.viTri" id="add" />
+                <div id="button" class="button1">
+                    <button class="button button-primary btn-on-bline" type="submit" >Xác nhận</button>
+                </div>
+            </div>
+            <div class="section-content" id="type_chart">
+                <div id="chart_line" style="width: 100%">
+                    <canvas id="myChart"></canvas>
+                </div>
+                <div id="chart_bar" style="width: 100%">
+                    <canvas id="myChart2"></canvas>
+                </div>
+            </div>
+            <div class="row g-4 portfolio-container section-content" style="height: 50rem;display: block;overflow: auto;margin-top: 2rem;" id="table">
+                <table class="table fs-3">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Id device</th>
+                            <th scope="col">value</th>
+                            <th scope="col">Location</th>
+                            <th scope="col">Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" value="@Model.AioKey" id="aiokey"/>
+    <input type="hidden" value="@Model.typeChart" id="typeChart"/>
+    <input type="hidden" value="@Model.DrawFunction" id="drawfuction"/>
+    <!-- Service End -->
+    <!-- /container -->
+</div>
+@section Scripts{
+<script type="text/javascript">
+    var d = new Date();
+    var date = d.getDate();
+    var year = d.getFullYear();
+    var month = d.getMonth() + 1;
+    if (month < 10) month = '0' + month;
+    var today = year + '-' + month + '-' + date;
+    document.querySelector('.time._to').max = today;
+    document.querySelector('.time._to').value = today;
+    document.querySelector('.time._from').max = today;
+    document.querySelector('.time._from').value = today;
+    document.querySelector('.time._to').onchange = function (e) {
+        document.querySelector('.time._from').max = e.target.value;
+    }
+    document.querySelector('.time._from').onchange = function (e) {
+        document.querySelector('.time._to').min = e.target.value;
+    }
+    document.querySelector('#type_chart').style.display = 'none';
+    document.querySelector('#option_chart').style.display = 'none';
+    document.querySelector('input[type="button"]').onclick = function (e) {
+        if (document.querySelector('select').value == "2") {
+            console.log(document.querySelector('#type_chart'))
+            document.querySelector('#type_chart').style.display = 'block';
+            document.querySelector('#table').style.display = 'none';
+            document.querySelector('#option_chart').style.display = 'block';
+        }
+        else {
+            document.querySelector('#type_chart').style.display = 'none';
+            document.querySelector('#table').style.display = 'block';
+            document.querySelector('#option_chart').style.display = 'none';
+        }
+    };
+    console.log(document.querySelector('#chart_bar'))
+    document.querySelector('#chart_bar').style.display = 'none';
+    document.querySelector('#option_chart').onchange = function (e) {
+        console.log(e.target.value);
+        if (e.target.value == 1) {
+            document.querySelector('#chart_line').style.display = 'block';
+            document.querySelector('#chart_bar').style.display = 'none';
+            document.querySelector('.from').style.display = 'block';
+            document.querySelector('.to').style.display = 'block';
+            document.querySelector('#button').style.display='block';
+
+        }
+        else {
+            document.querySelector('#chart_line').style.display = 'none';
+            document.querySelector('#chart_bar').style.display = 'block';
+            document.querySelector('.from').style.display = 'none';
+            document.querySelector('.to').style.display = 'none';
+            document.querySelector('#button').style.display='none';
+            
+        }
+    }
+    /****************************** Var draw chart *********************/
+    let max_threshold = document.getElementById("max").getAttribute("max"),
+        min_threshold = document.getElementById("min").getAttribute("min");
+    var a=document.querySelector("#aiokey").getAttribute("value");
+    let user_Adafruit = {
+        aIO_key: a,
+        Name: "luucongdinh"
+    }
+    /***************************** Var draw chart **************************/
+
+    /***************************** Call API adafruit **************************/
+    const getDataAdafruitInInterval = function (
+        userKey,
+        userName,
+        feedKey,
+        resolution,
+        fromDate,
+        toDate,
+        errorMsg = "Something went wrong"
+    ) {
+        const url = `https://io.adafruit.com/api/v2/${userName}/feeds/${feedKey}/data/chart?start_time=${fromDate}&end_time=${toDate}&resolution=${resolution}`;
+        return fetch(url, {
+            headers: {
+                "X-Aio-Key": `${userKey}`,
+            },
+            method: "GET",
+        })
+            .then((response) => {
+                if (!response.ok) throw new Error(`${errorMsg} ${response}`);
+                //   if (!response.ok) return console.log(response);
+                return response.json();
+            })
+            .then((response) => {
+                return response;
+            })
+            .catch((err) => {
+                return err;
+            });
+    };
+    /******************************Call API adafruit ******************************/
+    /******************************Static Table ******************************/
+    @* document.getElementById("chart_line").; *@
+        function table(fromDate, toDate)
+        {
+            getDataAdafruitInInterval(
+                user_Adafruit.aIO_key,
+                user_Adafruit.Name,
+                document.querySelector('#feed').getAttribute("value"),
+                1,
+                fromDate, //2022-01-31T20:24:00.000Z
+                toDate
+            ).then((res) => {
+                var i = 1;
+                const dataset = res.data.reverse();
+                console.log(dataset);
+                document.querySelector('table tbody').remove();
+                document.querySelector('table').insertAdjacentHTML("beforeend", `<tbody></tbody>`);
+                if(dataset.length==0)
+                {
+                    document.querySelector('table tbody').insertAdjacentHTML("beforeend", `<tr>
+                        <td colspan="5" style="text-align:center;font-size:2.5rem">Không có dự liệu trong khoảng thời gian bạn đã chọn</td>
+                    </tr>`);
+                }
+                dataset.forEach((element) => {
+                    document.querySelector('table tbody').insertAdjacentHTML("beforeend", `<tr>
+                                        <th scope="row">${i++}</th>
+                                        <td>${document.querySelector("#id").getAttribute("value")}</td>
+                                        <td>${element[1]}</td>
+                                        <td>${document.querySelector("#add").getAttribute("value")}</td>
+                                        <td>${new Date(element[0]).toLocaleString()}</td>
+                                    </tr>`);
+                });
+
+            });
+        }
+    /******************************Draw line chart******************************/
+    function linescript() {
+        function draw(fromDate, toDate) {
+            getDataAdafruitInInterval(
+                user_Adafruit.aIO_key,
+                user_Adafruit.Name,
+                document.querySelector('#feed').getAttribute("value"),
+                1,
+                fromDate,
+                toDate,
+            ).then((res) => {
+                var nameDevice = document.querySelector('#feed').getAttribute("name");
+                var kind = document.querySelector('#feed').getAttribute("kind");
+                console.log(res);
+                const dataset = res.data;
+                let labels = [],
+                    values = [],
+                    min = [],
+                    max = [],
+                    maxNumber = 0,
+                    minNumber = 0;
+                dataset.forEach((element) => {
+                    // console.log(element[0]);
+                    labels.push(
+                        new Date(element[0]).toLocaleDateString("vi-VN", {
+                            // weekday: "short",
+                            year: "numeric",
+                            month: "numeric",
+                            day: "numeric",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            second: "2-digit",
+                        })
+                    );
+                    //Get number of point that exceed the threshold
+                    maxNumber = element[1] > max_threshold ? maxNumber + 1 : maxNumber;
+                    minNumber = element[1] < min_threshold ? minNumber + 1 : minNumber;
+                    values.push(element[1]);
+                    min.push(min_threshold);
+                    max.push(max_threshold);
+                });
+                const data = {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: `Humid (${dataset.length})`,
+                            data: values,
+                            fill: false,
+                            borderColor: "rgba(0,0,0,0.8)",
+                            // tension: 0.1,
+                            pointStyle: "circle",
+                            pointRadius: 5,
+                            pointHoverRadius: 12,
+                            pointBackgroundColor: function (context) {
+                                var index = context.dataIndex;
+                                var value = context.dataset.data[index];
+                                if (value >= max_threshold) return "rgb(202, 37, 37)";
+                                else if (value <= min_threshold) return "rgb(62, 128, 172)";
+                                else return "#7bc36c";
+                            },
+                        },
+                        {
+                            label: `Max (${maxNumber})`,
+                            data: max,
+                            fill: false,
+                            // borderColor: "rgba(45, 186, 58, 1)",
+                            // tension: 0.1,
+                            // pointStyle: "circle",
+                            pointRadius: 0,
+                            // pointHoverRadius: 0,
+                            backgroundColor: "rgb(202, 37, 37)",
+                            borderColor: "rgb(202, 37, 37)",
+                        },
+                        {
+                            label: `Min (${minNumber})`,
+                            data: min,
+                            fill: false,
+                            // borderColor: "rgba(45, 186, 58, 1)",
+                            // tension: 0.1,
+                            // pointStyle: "circle",
+                            pointRadius: 0,
+                            // pointHoverRadius: 0,
+                            backgroundColor: "rgb(62, 128, 172)",
+                            borderColor: "rgb(62, 128, 172)",
+                        },
+                    ],
+                };
+
+                const config = {
+                    type: "line",
+                    data: data,
+                    options: {
+                        // responsive: true,
+                        //   maintainAspectRadio: false,
+                        //   plugin: {
+                        //     legend: false,
+                        //   },
+                        scales: {
+                            x: {
+                                display: false,
+                            },
+                            y: {
+                                // stacked: true,
+                                // type: "log2",
+                            },
+                        },
+                        plugins: {
+                            decimation: {
+                                enabled: true,
+                            },
+                            title: {
+                                display: true,
+                                text: `Biểu đồ biểu diễn sự biến thiên thông số của thiết bị ${nameDevice} về ${kind} từ  ${new Date(
+                                    fromDate
+                                ).toLocaleDateString("vi-VN")} đến ${new Date(
+                                    toDate
+                                ).toLocaleDateString("vi-VN")}`,
+                            },
+                        },
+                    },
+                };
+                // console.log(myChart);
+                // if(myChart!=undefined)
+                // {
+                //   console.log("dinh");
+                //   myChart.destroy();
+                // }
+                document.getElementById("myChart").remove();
+                document.getElementById("chart_line").insertAdjacentHTML("beforeend", '<canvas id="myChart"></canvas>');
+                let mychart = new Chart(document.getElementById("myChart"), config);
+            });
+        }
+
+        var From = document.querySelector('.time._from').value;
+        var To = document.querySelector('.time._to').value;
+
+        //From: 2022-01-31
+        let fromDate = new Date(From).toISOString(), //2022-01-31T20:24:00.000Z
+            toDate = new Date(To + "T23:59:00").toISOString(); //2022-01-31T20:24;//2022-04-13T23:59:59.000Z
+
+        draw(fromDate, toDate);
+        table(fromDate, toDate);
+        document.querySelector('.button').onclick = function (e) {
+            From = document.querySelector('.time._from').value;
+            To = document.querySelector('.time._to').value;
+            //From: 2022-01-31
+            fromDate = new Date(From).toISOString(); //2022-01-31T20:24:00.000Z
+            toDate = new Date(To + "T23:59:00").toISOString(); //2022-01-31T20:24;//2022-04-13T23:59:59.000Z
+            draw(fromDate, toDate);
+            table(fromDate,toDate);
+        }
+    }
+
+    /******************************Draw line bar******************************/
+    function barscript() {
+        const MONTHS = [
+            "Tháng 1",
+            "Tháng 2",
+            "Tháng 3",
+            "Tháng 4",
+            "Tháng 5",
+            "Tháng 6",
+            "Tháng 7",
+            "Tháng 8",
+            "Tháng 9",
+            "Tháng 10",
+            "Tháng 11",
+            "Tháng 12",
+        ];
+
+        const dataGroups = MONTHS.map((el) => {
+            return { month: el, maxNumber: 0, minNumber: 0, number: 0 };
+        });
+
+        const year = new Date().getFullYear();
+        let fromDate = new Date(`January 01, ${year}`);
+        let toDate = new Date(`January 01, ${year + 1}`);
+
+        //   **************DISPLAY CHART*****************
+        getDataAdafruitInInterval(
+            user_Adafruit.aIO_key,
+            user_Adafruit.Name,
+            document.querySelector('#feed').getAttribute("value"),
+            1,
+            fromDate,
+            toDate
+        ).then((res) => {
+            const dataset = res.data;
+            console.log(dataset);
+            dataset.forEach((element) => {
+                // console.log(element[0]);
+                const month = new Date(element[0]).getMonth();
+                dataGroups[month].number++;
+                dataGroups[month].maxNumber =
+                    element[1] >= max_threshold
+                        ? ++dataGroups[month].maxNumber
+                        : dataGroups[month].maxNumber;
+                dataGroups[month].minNumber =
+                    element[1] <= min_threshold
+                        ? ++dataGroups[month].minNumber
+                        : dataGroups[month].minNumber;
+            });
+
+            // console.log(dataGroups);
+
+            const data = {
+                labels: MONTHS,
+                datasets: [
+                    {
+                        label: `Tổng`,
+                        data: dataGroups.map((el) => el.number),
+                        borderColor: "rgb(0,0,0,0.7)",
+                        backgroundColor: "#7bc36c",
+                    },
+                    {
+                        label: `Vượt ngưỡng max`,
+                        data: dataGroups.map((el) => el.maxNumber),
+                        borderColor: "rgb(0,0,0,0.7)",
+                        backgroundColor: "rgb(202, 37, 37)",
+                    },
+                    {
+                        label: `Vượt ngưỡng min`,
+                        data: dataGroups.map((el) => el.minNumber),
+                        borderColor: "rgb(0,0,0,0.7)",
+                        backgroundColor: "rgb(62, 128, 172)",
+                    },
+                ],
+            };
+
+            const config = {
+                type: "bar",
+                data: data,
+                plugins: [ChartDataLabels],
+                options: {
+                    plugins: {
+                        legend: {
+                            position: "top",
+                        },
+                        datalabels: {
+                            color: "#000",
+                        },
+                        title: {
+                            display: true,
+                            text: `Biểu đồ so sánh số lần vượt ngưỡng ở các tháng trong năm ${year}`,
+                        },
+                    },
+                },
+            };
+            // console.log(2);
+            const myChart2 = new Chart(document.getElementById("myChart2"), config);
+        });
+    }
+    /******************************Draw line bar******************************/
+    //let drawfunction = document.querySelector('#drawfuction').getAttribute("value");
+    //console.log(drawfunction);
+    //if(drawfunction == "Line()"){
+    //    linescript();
+    //}
+    //else if(drawfunction == "Bar()"){
+    //    barscript();
+    //}
+    linescript();
+    barscript();
+    
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.0.0/chartjs-plugin-datalabels.min.js"
+    integrity="sha512-R/QOHLpV1Ggq22vfDAWYOaMd5RopHrJNMxi8/lJu8Oihwi4Ho4BRFeiMiCefn9rasajKjnx9/fTQ/xkWnkDACg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+}

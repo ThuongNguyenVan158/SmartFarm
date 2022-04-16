@@ -1,0 +1,133 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@section CustomCss{
+    <link rel="stylesheet" type="text/css" href="/css/inforUser.css" />
+}
+@model UserInforViewModel
+<!-- ***************** CONTENT ************************ -->
+    <section class="section-user">
+      <div class="row">
+        <div class="col-12 col-md-4">
+          <figure class="user__quicki4">
+            <img src="@Model.ImgUrl" alt="user avatar" />
+            <figcaption class="user__quicki4-details">
+              <span class="user__quicki4-gmail">@Model.Email</span>
+            </figcaption>
+          </figure>
+        </div>
+        <div class="col-12 col-md-8">
+          <div class="user__in4-container">
+            <h1 class="heading-2 text-center mb-4">Thông tin cá nhân</h1>
+            <form class="form mb-4" asp-controller="Home" asp-action="PostEditAccount">
+                <input type="hidden" name="account.UserName" value="@Model.UserName" />
+                <div class="form__group">
+                    <label for="lastName" class="form__label">Họ</label>
+                    <div class="position-relative">
+                        <svg class="form__icon">
+                            <use xlink:href="/image/spirite.svg#icon-users"></use>
+                        </svg>
+                        <input type="text"
+                               id="lastName"
+                               name="account.Ho"
+                               class="form__input"
+                               value="@Model.Ho" />
+                    </div>
+                </div>
+                <div class="form__group">
+                    <label for="firstName" class="form__label">Tên</label>
+                    <div class="position-relative">
+                        <svg class="form__icon">
+                            <use xlink:href="/image/spirite.svg#icon-users"></use>
+                        </svg>
+                        <input type="text"
+                               id="firstName"
+                               name="account.Ten"
+                               class="form__input"
+                               value="@Model.Ten" />
+                    </div>
+                </div>
+                <div class="form__group">
+                    <label for="email" class="form__label">Email</label>
+                    <div class="position-relative">
+                        <svg class="form__icon">
+                            <use xlink:href="/image/spirite.svg#icon-users"></use>
+                        </svg>
+                        <input type="email"
+                               id="email"
+                               name="account.Email"
+                               class="form__input"
+                               value="@Model.Email" />
+                    </div>
+                </div>
+                <div class="form__group">
+                    <label for="address" class="form__label">Địa chỉ</label>
+                    <div class="position-relative">
+                        <svg class="form__icon">
+                            <use xlink:href="/image/spirite.svg#icon-users"></use>
+                        </svg>
+                        <input type="text"
+                               id="address"
+                               name="account.Address"
+                               class="form__input"
+                               value="@Model.Address" />
+                    </div>
+                </div>
+                <div class="d-flex mb-5">
+                    <button class="button me-5" type="submit">Cập nhật</button>
+                    <button class="button">Hủy</button>
+                </div>
+            </form>
+            
+            <h1 class="heading-2 text-center mb-4">Đổi mật khẩu</h1>
+            <form asp-controller="Home" asp-action="PostPassword">
+                <input type="hidden" name="account.UserName" value="@Model.UserName" />
+                <div class="form mb-4">
+                    <div class="form__group">
+                        <label for="oldPassword" class="form__label">Mật khẩu cũ</label>
+                        <div class="position-relative">
+                            <svg class="form__icon">
+                                <use xlink:href="/image/spirite.svg#icon-users"></use>
+                            </svg>
+                            <input type="password"
+                                   id="oldPassword"
+                                   name="account.CurentPassword"
+                                   class="form__input"
+                                   value="" />
+                        </div>
+                    </div>
+                    <div class="form__group">
+                        <label for="password" class="form__label">Mật khẩu mới</label>
+                        <div class="position-relative">
+                            <svg class="form__icon">
+                                <use xlink:href="/image/spirite.svg#icon-users"></use>
+                            </svg>
+                            <input type="password"
+                                   id="password"
+                                   name="account.Password"
+                                   class="form__input"
+                                   value="" />
+                        </div>
+                    </div>
+                    <div class="form__group">
+                        <label for="passwordConfirm" class="form__label">Xác nhận mật khẩu mới</label>
+                        <div class="position-relative">
+                            <svg class="form__icon">
+                                <use xlink:href="/image/spirite.svg#icon-users"></use>
+                            </svg>
+                            <input type="password"
+                                   id="passwordConfirm"
+                                   name="account.RePassword"
+                                   class="form__input"
+                                   value="" />
+                        </div>
+                    </div>
+                </div>
+                <button class="button" type="submit">Cập nhật</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+@{
+}

@@ -1,0 +1,91 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@using System.Collections.Generic;
+@using SmartFarm.Models;
+@model List<InputModel>;
+@{
+    ViewData["Title"] = "Threshold Setting";
+}
+@section CustomCss{
+    <link rel="stylesheet" type="text/css" href="/css/threshold.css" />
+
+}
+<!-- -----------------SECTION CONTENT------------------ -->
+    <section class="section-content">
+      <div style="position:relative;">
+        <span class="popup-map">See map</span>
+        <figure class="map hidden">
+          <figcaption class="map__unit">(&#13217;)</figcaption>
+          <img src="/image/map.png" class="img-fluid" alt="map image" />
+        </figure>
+      </div>
+      <h1 class="heading-1 mb-5 d-flex align-items-center">
+          <img src="/image/cogs-solid.svg" class="heading__icon me-4"/>
+        Thiết lập ngưỡng
+      </h1>
+
+      <div class="container1">
+        <div class="device-list">
+          @foreach(var input in Model){
+            <div class="adding-device" style="height: 46rem;width:32rem">
+              <figure class="device-figure">
+                <img src="@input.image" alt="Động cơ" class="device-img" height="100" />
+                <figcaption class="device-name">@input.name</figcaption> 
+                <span style="font-size:1.5rem">(@input.viTri)</span> 
+              </figure>
+              <div class="description-group">
+                <span class="description-title">Mô tả: </span>
+                <p class="description-content">
+                  @input.thongTin
+                </p>
+              </div>
+              <form class="form" asp-controller="InputDevice" asp-action="SetNguong">
+                <div class="mb-5">
+                  <span class="form__label">Thiết lập: </span>
+                  <div class="threshold">
+                    <span class="threshold-max-title">Tắt</span>
+                    <span class="threshold-min-title">Bật</span>
+                    <span class="threshold__subject"style="width: 12rem;">@input.loaiThietBi @input.donVi: </span>
+                    <input type="number" value="@input.nguongMax" class="threshold__value" name="nguongMax" />
+                    <input type="number" class="threshold__value" value="@input.nguongMin" name="nguongMin"/>
+                    <span class="threshold__subject">Thời gian kiểm tra:</span>
+
+                    <select  class="form__input threshold__checked-time" name="secondTime">
+                      <option value="@input.timeSet.TotalSeconds" selected>@input.timeSet.TotalMinutes phút</option>
+                      <option value="30" >0.5 phút</option>
+                      <option value="60" >1 phút</option>
+                      <option value="120">2 phút</option>
+                      <option value="300">5 phút</option>
+                      <option value="600">10 phút</option>
+                    </select>
+                  </div>
+                </div>
+                <input type="hidden" value="@input.id" name="id" />
+                <input type="hidden" value="@input.loaiThietBi" name="loaiThietBi" />
+                <button class="button button-primary btn-on-bline" type="submit">
+                  Xác nhận
+                </button>
+              </form>
+            </div>
+          }
+
+        </div>
+      </div>
+    </section>
+@section Scripts{
+  <script type="text/javascript">
+    const popMap = document.querySelector(".popup-map");
+    const map = document.querySelector(".map");
+
+    document.body.addEventListener("click", function (e) {
+      if (map.classList.contains("hidden")) {
+        if (!e.target.closest(".popup-map")) return;
+        map.classList.remove("hidden");
+      } else {
+        if (e.target.closest(".map")) return;
+        map.classList.add("hidden");
+      }
+    });
+  </script>
+}

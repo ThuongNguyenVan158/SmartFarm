@@ -1,0 +1,98 @@
+﻿@section CustomCss{
+    <link rel="stylesheet" type="text/css" href="/css/EquipmentDetail.css" />
+}
+@model EditEquipmentViewModel
+<section class="section-padding">
+    <h1 class="heading-1 mb-5 d-flex align-items-center">
+        <svg class="heading__icon me-4">
+            <use xlink:href="/image/spirite.svg#icon-blog"></use>
+        </svg>
+        Thiết bị
+    </h1>
+    <div></div>
+    <div class="row">
+        <div class="col-lg-4">
+            <!-- <figure class="device-figure">
+              <img
+                src="./image/avatar.jpg"
+                alt="device__img"
+                class="device__img"
+              />
+              <figcaption class="device__subi4">DHT11 (X:?;Y:?)</figcaption>
+            </figure> -->
+            <figure class="map">
+                <figcaption class="map__unit">(&#13217;)</figcaption>
+                <img src="/image/map.png" class="img-fluid" alt="map image" />
+            </figure>
+        </div>
+        <div class="col-lg-8 device">
+            <h2 class="heading-2 mb-4">Thông tin thiết bị</h2>
+            <div class="device-imgs">
+                <figure class="device__img">
+                    <img src="@Model.image" alt="device image" />
+                </figure>
+                <figure class="device__desimg">
+                    <h1>@Model.name</h1>
+                </figure>
+            </div>
+            <form class="device-form" asp-controller="Home" asp-action="PostEditEquipment">
+                <input type="hidden" name="equipment.id" value="@Model.id" />
+                <div class="device-form__group">
+                    <label for="deviceUrlImg" class="device-form__label">Thông tin:</label>
+                    <input type="text"
+                           id="deviceUrlImg"
+                           name="equipment.thongTin"
+                           class="device-form__input"
+                           value="@Model.thongTin" />
+                </div>
+                <div class="popup">
+                    <label for="outputs" class="device-form__label">OutPut Link tới:</label>
+                    <select name="equipment.idOutput" id="outputs" class="device-form__input">
+                        @foreach (var o in Model.output)
+                        {
+                            <option value="@o.Id">@o.Name @o.ViTri</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="device-form__group">
+                    <label class="device-form__label">Vị trí đặt:</label>
+                    <input type="text"
+                           name="equipment.viTri"
+                           id="device-coor-x"
+                           value="@Model.viTri"
+                           class="device-form__input" />
+                </div>
+                <div class="device-form__group">
+                    <label for="deviceUrlImg" class="device-form__label">Ảnh thiết bị:</label>
+                    <input type="text"
+                           id="deviceUrlImg"
+                           name="equipment.image"
+                           value="@Model.image"
+                           class="device-form__input" />
+                </div>
+                <button class="button mx-auto" style="width: 12rem" type="submit">
+                    Cập nhật
+                </button>
+            </form>
+            <!-- <figure class="device-figure">
+              <img
+                src="./image/avatar.jpg"
+                alt="device__img"
+                class="device__img"
+              />
+              <figcaption class="device__subi4">DHT11 (X:?;Y:?)</figcaption>
+            </figure> -->
+        </div>
+        <input type="hidden" value="@Model.loai" id="types"/>
+    </div>
+</section>
+@section Scripts{
+    <script>
+    var x = document.getElementById("types").value;
+    let modal = document.querySelector(".popup");
+        if (x == "input") {
+            modal.style.display = "flex";
+        }
+    </script>
+}

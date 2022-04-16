@@ -1,0 +1,41 @@
+﻿.home {
+    min-height: 60rem;
+    background-repeat: no-repeat;
+    background-position: top;
+    background-size: cover;
+    background-image: url("/image/homeImage.png");
+}
+
+.HomeContent {
+    color: white;
+    text-shadow: 0 3px 2rem rgba(0, 0, 0, 0.753);
+    text-transform: uppercase;
+    transform: translate(5rem, 5rem);
+    font-family: "Libre Baskerville", sans-serif;
+    font-size: 4rem;
+    position: relative;
+}
+
+    .HomeContent:after {
+        position: absolute;
+        content: "";
+        display: inline-block;
+        /* bottom: 0; */
+        bottom: -2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 70%;
+        height: 5px;
+        background-color: white;
+    }
+.pb-3 {
+        padding-bottom: 0rem !important;
+       }
+.home{
+    margin-top: 6rem;
+}
+@media (max-width: 767.98px) {
+    .home{
+    margin-top: 0rem;
+}
+}

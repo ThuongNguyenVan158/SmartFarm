@@ -1,0 +1,49 @@
+﻿
+@using Microsoft.AspNetCore.Identity
+@using SmartFarm.Data.Entities;
+@using SmartFarm.Data;
+@inject SignInManager<Customer> SignInManager
+@inject UserManager<Customer> UserManager
+@inject AppDbContext context
+        @if (SignInManager.IsSignedIn(User))
+        {
+           <div class="dropdown align-self-stretch d-block d-md-none">
+              <div
+                class="dropdown-toggle nav-user"
+                id="dropdownMenuButton"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                 <span class="nav-user__avatar">
+                    <img src="@UserManager.GetUserAsync(User).Result.Image" alt="User avatar" />
+                </span>
+                <span class="nav-user__name">@UserManager.GetUserAsync(User).Result.UserName</span>
+              </div>
+
+              <div
+                class="dropdown-menu nav-user__dropdown"
+                aria-labelledby="dropdownMenuButton"
+              >
+                <a class="dropdown-item nav-user__dropdown-item" href="@Url.Action("InforUser","Home",new { UserName=UserManager.GetUserAsync(User).Result.UserName})"
+                  >Thông tin cá nhân</a
+                >
+                <a class="dropdown-item nav-user__dropdown-item" href="@Url.Action("ManageDeivce","Home")"
+                  >Quản lý thiết bị</a
+                >
+                <a class="dropdown-item nav-user__dropdown-item" href="@Url.Action("Login","Home")"
+                  >Đăng xuất</a
+                >
+              </div>
+            </div>
+        }
+        else
+        {
+          <div class="dropdown align-self-stretch d-block d-md-none">
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item nav__item">
+              <a class="nav-link nav__link" href="@Url.Action("Login", "Home")" class="nav-link nav__link">Đăng nhập</a>
+              </li>
+          </ul>
+          </div>
+        }
+

@@ -1,0 +1,100 @@
+﻿/* ------------BUTTON--------------- */
+/* ------------FORM--------------- */
+.form {
+    /* border: 2px solid blue; */
+    display: grid;
+    grid-template-columns: auto auto;
+    row-gap: 1.5rem;
+    /* justify-content: center  ; */
+    /* padding-left: 7rem; */
+}
+
+.form__group {
+    display: inline-block;
+    /* border: 2px solid red; */
+}
+
+.form__label {
+    font-size: 2rem;
+    font-family: "Lato", sans-serif;
+    font-weight: 500;
+}
+
+.form__input {
+    padding: 0.5rem 1rem 0.5rem 4rem;
+    font-size: 1.6rem;
+    display: inline-block;
+    font-family: "Lato", sans-serif;
+    /* margin-left: -1rem; */
+    width: 80%;
+}
+
+.form__icon {
+    width: 3rem;
+    height: 3rem;
+    fill: #7bc36c;
+    z-index: 1000;
+    position: absolute;
+    /* transform: translateX(2rem); */
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+}
+
+/* ------------USER SECTION--------------- */
+.section-user {
+    /* width: 80%; */
+    /* margin-top: 10rem; */
+    /* display: flex; */
+    /* height: 20rem; */
+    /* border: 2px solid red; */
+    padding: 10rem 4rem 20rem;
+}
+
+@media only screen and (max-width: 48em) {
+    .section-user {
+        padding: 10rem 4rem 10rem;
+    }
+}
+
+.user__quicki4 {
+    padding: 2.5rem;
+    text-align: center;
+    /* background-color: rgba(175, 172, 172, 0.233); */
+    border: 3px solid #7bc36c;
+    border-radius: 10px;
+}
+
+@media only screen and (max-width: 48em) {
+    .user__quicki4 {
+        border: none;
+    }
+}
+
+.user__quicki4 img {
+    max-width: 20rem;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+}
+
+.user__in4-container {
+    /* background-color: tomato; */
+    border: 3px solid #7bc36c;
+    border-radius: 10px;
+    width: 100%;
+    /* height: 50rem; */
+    padding: 2.5rem 4rem;
+}
+
+.user__quicki4-name {
+    /* font-size: 1.6rem; */
+    /* margin-top: -3rem; */
+    margin-bottom: 0 !important;
+}
+
+.user__quicki4-gmail {
+    /* font-size: 1.6rem; */
+    /* margin-top: -3rem; */
+    font-size: 1.6rem;
+    color: #5b8553;
+}
